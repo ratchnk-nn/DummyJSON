@@ -21,8 +21,6 @@ const data = {
 
 export const dataInMemory = data;
 
-export const isDev = process.env.NODE_ENV === 'development';
-
 export const deepFreeze = obj => {
   Object.freeze(obj);
 
