@@ -9,7 +9,6 @@ import cleanRequest from './clean-request.js';
 import delayResponse from './delay-response.js';
 import rateLimiter from './rate-limiter.js';
 import wwwRedirect from './www-redirect.js';
-import removeHeaders from './remove-headers.js';
 import { requestContextMiddleware } from '../utils/request-context.js';
 
 // for parsing application/json
@@ -37,7 +36,6 @@ function injectMiddleWares(app) {
   app.use(requestLogger);
   app.use(cleanRequest);
   app.use(wwwRedirect);
-  app.use(removeHeaders);
   app.use(delayResponse);
 }
 
