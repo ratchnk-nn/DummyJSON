@@ -4,7 +4,6 @@ import injectMiddleWares from './src/middleware/index.js';
 import errorMiddleware from './src/middleware/error.js';
 import authUser from './src/middleware/auth.js';
 import routes from './src/routes/index.js';
-import { log } from './src/helpers/logger.js';
 import { validateEnvVar, loadDataInMemory } from './src/utils/util.js';
 import { setupCRONJobs } from './src/utils/cron-jobs.js';
 import { registerFatalHandlers, registerShutdownHandlers } from './src/utils/fatal-handler.js';
@@ -40,7 +39,7 @@ app.use(errorMiddleware);
 
 // Keep a reference to server so we can close it on SIGINT/SIGTERM
 const server = app.listen(PORT, () => {
-  log(`[${NODE_ENV}] App running at http://localhost:${PORT}`);
+  console.log(`[${NODE_ENV}] App running at http://localhost:${PORT}`);
 });
 
 // Process-level handlers

@@ -37,7 +37,9 @@ router.post('/generate', async (req, res, next) => {
       return;
     }
 
-    const newResponse = new CustomResponse({ hash, json, method, identifier });
+    const creatorIP = req.clientInfo?.ip;
+
+    const newResponse = new CustomResponse({ hash, json, method, identifier, creatorIP });
     await newResponse.save();
     res.json({ url: `https://dummyjson.com/c/${newResponse.identifier}` });
   } catch (error) {

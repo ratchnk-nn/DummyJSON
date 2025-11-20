@@ -1,7 +1,8 @@
 import onFinished from 'on-finished';
 import onHeaders from 'on-headers';
+import { flushRouteStatsSnapshot } from '../helpers/route-stat.js';
 import { isRequestInWhitelist } from '../helpers/index.js';
-import { log } from '../helpers/logger.js';
+import { log, logError } from '../helpers/logger.js';
 import { timeDifference } from '../utils/util.js';
 
 const { LOG_ENABLED } = process.env;
@@ -9,7 +10,7 @@ const { LOG_ENABLED } = process.env;
 const counts = {
   overallRequestCount: 0,
   customRouteCount: 0,
-  pathCounts: {},
+  pathCounts: {}, // last minute counts only
 };
 
 function requestLogger(req, res, next) {
@@ -125,10 +126,21 @@ function isHeadersSent(res) {
 function startCountLogger() {
   const startTime = Date.now();
 
-  setInterval(() => {
+  setInterval(async () => {
     const diff = timeDifference(startTime, Date.now());
-    log(`[Logger - Request Counts] ${diff}`, counts);
-  }, 60 * 1000 /* 60 seconds */);
+
+    console.log(
+      `[Request Counts] [${diff}] - overallRequestCount: ${counts.overallRequestCount}, customRouteCount: ${counts.customRouteCount}`,
+    );
+
+    try {
+      await flushRouteStatsSnapshot(counts.pathCounts);
+    } catch (err) {
+      logError('Error flushing route stats snapshot', { error: err });
+    }
+
+    counts.pathCounts = {};
+  }, 60 * 1000 /* 1 minute */);
 }
 
 startCountLogger();

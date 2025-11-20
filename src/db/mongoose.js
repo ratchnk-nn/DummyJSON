@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { logError, log } from '../helpers/logger.js';
+import { logError } from '../helpers/logger.js';
 
 const { MONGODB_URI, MONGODB_DB_NAME } = process.env;
 
@@ -29,7 +29,7 @@ export const disconnectDB = async () => {
 };
 
 mongoose.connection.on('connected', () => {
-  log('Mongoose connected to DB');
+  console.log('Mongoose connected to DB');
 });
 
 mongoose.connection.on('error', error => {

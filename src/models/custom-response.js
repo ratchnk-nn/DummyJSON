@@ -27,8 +27,11 @@ const customResponseSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    creatorIP: {
+      type: String,
+    }
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 const CustomResponse = mongoose.model('CustomResponse', customResponseSchema);
