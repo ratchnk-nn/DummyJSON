@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 import express from 'express';
 import { connectDB, disconnectDB } from './src/db/mongoose.js';
 import injectMiddleWares from './src/middleware/index.js';

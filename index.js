@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import os from 'node:os';
 import cluster from 'node:cluster';
 import { createRequire } from 'node:module';
